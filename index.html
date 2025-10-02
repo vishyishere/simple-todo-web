@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Simple Todo</title>
+  <style>
+    body{font-family:Arial; max-width:600px;margin:2rem auto}
+    input{padding:.5rem;width:70%} button{padding:.5rem}
+    ul{list-style:none;padding:0}
+    li{padding:.5rem;border-bottom:1px solid #eee;display:flex;justify-content:space-between}
+  </style>
+</head>
+<body>
+  <h1>Simple Todo</h1>
+  <div>
+    <input id="task" placeholder="New task"/>
+    <button id="add">Add</button>
+  </div>
+  <ul id="list"></ul>
+  <script>
+    const input = document.getElementById('task');
+    const list = document.getElementById('list');
+    const key = 'simple_todo_v1';
+    function save(items){ localStorage.setItem(key, JSON.stringify(items)); }
+    function load(){ return JSON.parse(localStorage.getItem(key) || '[]'); }
+    function render(){
+      list.innerHTML='';
+      const items=load();
+      items.forEach((t,i)=>{
+        const li=document.createElement('li');
+        li.innerHTML = `<span>${t}</span><button data-i="${i}">✖</button>`;
+        list.appendChild(li);
+      });
+    }
+    document.getElementById('add').addEventListener('click', ()=>{
+      const v=input.value.trim(); if(!v) return;
+      const items=load(); items.push(v); save(items); input.value=''; render();
+    });
+    list.addEventListener('click', e=>{
+      if(e.target.tagName==='BUTTON'){
+        const i=+e.target.dataset.i; const items=load(); items.splice(i,1); save(items); render();
+      }
+    });
+    render();
+  </script>
+</body>
+</html>
