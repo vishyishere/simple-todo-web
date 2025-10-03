@@ -1,4 +1,4 @@
-cat > README.md <<'MD'
+
 # 📝 Simple Todo (Vanilla JS)
 
 A lightweight, single-file todo app built with **HTML, CSS, and JavaScript**.  
